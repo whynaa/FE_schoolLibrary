@@ -25,8 +25,6 @@ After installing the dependencies, start the development server using the follow
 
 ```bash
 
-sql
-
 npm start
 
 ```
