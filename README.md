@@ -11,11 +11,11 @@ The project uses the Axios library for making HTTP requests to the backend API. 
 The project uses MySQL as the database management system. MySQL is a widely-used open-source relational database management system that is popular among developers for its reliability and scalability.
 
 ## Getting Started
-To get started with the project, clone the repository and install the dependencies using the following commands:
+To get started with the project, Makesure you already clone the BE version then clone the repository and install the dependencies using the following commands:
 
 ```bash
 
-git clone https://github.com/your_username/school_library.git
+git clone https://github.com/whynaa/school_library.git
 cd school_library
 npm install
 
