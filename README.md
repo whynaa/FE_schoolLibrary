@@ -15,7 +15,7 @@ To get started with the project, Makesure you already clone the BE version then 
 
 ```bash
 
-git clone https://github.com/whynaa/school_library.git
+git clone https://github.com/whynaa/FE_schoolLibrary.git
 cd school_library
 npm install
 
