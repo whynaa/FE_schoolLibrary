@@ -24,7 +24,7 @@ export const MySidebar = () => {
             </li>
             <li className="nav-item">
                 <Link className={location.pathname === "/borrow" ? "nav-link active" : "nav-link text-dark"} to="/borrow">
-                    <FaBoxes /> Borrowed
+                    <FaBoxes /> Borrow
                 </Link>
             </li>
             <li className="nav-item">
