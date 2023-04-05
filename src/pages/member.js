@@ -1,8 +1,9 @@
 //import library or component
+import axios from 'axios'
 import { useState, useEffect } from 'react';
-import { getMember, addMember, editMember, delMember } from '../API/apiMembers'
 import { MySidebar } from '../components/mySidebar'
 import { Modal } from "bootstrap"
+import { config, baseURL, photoURL } from '../config';
 
 //functional component (Hooks)
 function Member() {
@@ -22,7 +23,6 @@ function Member() {
     let [modal, setModal] = useState(null) // mannage modal to show
     let [change, setChange] = useState(false) // mannage photo to show
     let [action, setAction] = useState(''); // mannage action to save
-    const url = "http://localhost:8000/image/photo/" // url photo based on backend API
 
     //manages the side-effects in functional component
     useEffect(() => {
@@ -36,12 +36,16 @@ function Member() {
 
     const fetchMember = async () => {
         // get data from API using AXIOS
-        const data = await getMember()
-        setMembers(data)
+        try{
+            const response = await axios.get(baseURL + "/member", config)
+            setMembers(response.data.data)
+        } catch (error) {
+            console.error(error);
+        }
     }
     
     const handleAdd = () => {
-        setAction('add') // add means save new member      
+        setAction('add') // save new member      
         modal.show() // display modal
 
         //empty form
@@ -56,7 +60,7 @@ function Member() {
     }
 
     const handleEdit = (item) => {
-        setAction('edit') // edit means update old member
+        setAction('edit') // update old member
         modal.show() // display modal
 
         //fill form with previous data based on clicked item
@@ -74,8 +78,12 @@ function Member() {
         alert("Are you sure delete this data?")
         
         // delete data from API using AXIOS
-        const del = delMember(id)
-        alert(del)
+        try{
+            const response = await axios.delete(baseURL + "/member", config)
+            alert(response.data.message)
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const handleSave = async (e) => {
@@ -85,7 +93,6 @@ function Member() {
 
         //prepare data to save
         let data = new FormData()
-        data.append("id", newMember.id)
         data.append("name", newMember.name)
         data.append("gender", newMember.gender)
         data.append("contact", newMember.contact)
@@ -94,15 +101,23 @@ function Member() {
 
         if (action === "add"){
             // save new data to API using AXIOS
-            const add = await addMember(data)
-            alert(add)
-            fetchMember()
+            try{
+                const response = await axios.get(baseURL + "/member", data, config)
+                alert(response.data.message)
+            } catch (error) {
+                console.error(error);
+            }
         }
         if (action === "edit"){
             // update data to API using AXIOS
-            const edit = await editMember(data)
-            alert(edit)
+            try{
+                const response = await axios.get(baseURL + "/member" + newMember.id, data, config)
+                setMembers(response.data.data)
+            } catch (error) {
+                console.error(error);
+            }
         }
+        fetchMember()
     }
 
     const handleClose = () => {
@@ -147,12 +162,12 @@ function Member() {
                                     <td>{item.gender}</td>
                                     <td>{item.contact}</td>
                                     <td>{item.address}</td>
-                                    <td><img src={url+item.photo} height='50px' alt='{item.photo}'  /></td>
+                                    <td><img src={photoURL+item.photo} height='50px' alt={item.photo} /></td>
                                     <td>
                                         {/* button edit */}
                                         <button className='btn btn-primary mx-1 text-white' onClick={() => handleEdit(item)}>edit</button>
                                         {/* button delete */}
-                                        <button className='btn btn-danger mx-1 text-white' onClick={() => handleDelete(item.id)}>edit</button>
+                                        <button className='btn btn-danger mx-1 text-white' onClick={() => handleDelete(item.id)}>delete</button>
                                     </td>
                                 </tr>
                             ))}
@@ -167,7 +182,7 @@ function Member() {
                     <div className="modal-content">
                         <div className="modal-header bg-primary">
                             <h4 className="text-white">Form Member</h4>
-                            <button type="button" class="btn-close bg-light" onClick={handleClose}></button>
+                            <button type="button" className="btn-close bg-light" onClick={handleClose}></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={e => handleSave(e)}>
@@ -207,7 +222,7 @@ function Member() {
                                     required />
 
                                 Photo <br/>
-                                <img src={newMember.photo !== null ? change ? URL.createObjectURL(newMember.photo) : url+newMember.photo : null} height='50px' alt={newMember.photo} />
+                                <img src={newMember.photo !== null ? change ? URL.createObjectURL(newMember.photo) : photoURL+newMember.photo : null} height='50px' alt={newMember.photo} />
                                 
                                 <input
                                     type="file"

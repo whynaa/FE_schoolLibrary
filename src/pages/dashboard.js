@@ -1,10 +1,8 @@
+import axios from 'axios'
 import { useState, useEffect } from 'react';
-import { getAdmin } from '../API/apiAdmin'
-import { getMember } from '../API/apiMembers'
-import { getBook } from '../API/apiBooks'
-import { getBorrow } from '../API/apiBorrows'
 import { Card } from '../components/card'
 import { MySidebar } from '../components/mySidebar'
+import { config, baseURL } from '../config';
 
 function Dashboard() {
     const [admins, setAdmins] = useState(0);
@@ -20,23 +18,39 @@ function Dashboard() {
     }, []);
 
     const fetchAdmin = async () => {
-        const data = await getAdmin();
-        setAdmins(data.length);
+        try{
+            const response = await axios.get(baseURL + "/admin", config)
+            setAdmins(response.data.data.length)
+        } catch (error) {
+            console.error(error);
+        }
     };
         
     const fetchMember = async () => {
-        const data = await getMember();
-        setMembers(data.length);
+        try{
+            const response = await axios.get(baseURL + "/member", config)
+            setMembers(response.data.data.length)
+        } catch (error) {
+            console.error(error);
+        }
     };
         
     const fetchBook = async () => {
-        const data = await getBook();
-        setBooks(data.length);
+        try{
+            const response = await axios.get(baseURL + "/book", config)
+            setBooks(response.data.data.length)
+        } catch (error) {
+            console.error(error);
+        }
     };
         
     const fetchBorrow = async () => {
-        const data = await getBorrow();
-        setBorrows(data.length);
+        try{
+            const response = await axios.get(baseURL + "/borrow", config)
+            setBorrows(response.data.data.length)
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return(
