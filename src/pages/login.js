@@ -23,7 +23,7 @@ function Login() {
                 localStorage.setItem('admin', JSON.stringify(response.data.data));
                 localStorage.setItem('token', response.data.token);
                 // dilanjutkan navigasi ke halaman dashboard
-                history('/');
+                history('/dashboard');
             }else{
                 alert("Login Failed, Please check your username dan password")
             }
