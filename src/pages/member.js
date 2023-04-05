@@ -20,6 +20,7 @@ function Member() {
         photo : null
     }]);
 
+    let [search, setSearch] = useState('') // collect search data
     let [modal, setModal] = useState(null) // mannage modal to show
     let [change, setChange] = useState(false) // mannage photo to show
     let [action, setAction] = useState(''); // mannage action to save
@@ -38,6 +39,16 @@ function Member() {
         // get data from API using AXIOS
         try{
             const response = await axios.get(baseURL + "/member", config)
+            setMembers(response.data.data)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleSearch = async (e) => {
+        e.preventDefault()
+        try{
+            const response = await axios.post(baseURL + "/member/find",{"keyword" : search}, config)
             setMembers(response.data.data)
         } catch (error) {
             console.error(error);
@@ -141,11 +152,17 @@ function Member() {
                     {/* title */}
                     <h1>Member List</h1>
 
-                    {/* button add */}
-                    <button className='btn btn-success mb-2' onClick={() => handleAdd()}>Add Member</button>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        {/* button add */}
+                        <button className='btn btn-success mb-2' onClick={() => handleAdd()}>Add Member</button>
+                        {/* search form*/}
+                        <form onSubmit={e => handleSearch(e)}>
+                            <input type="text" className="form-control mb-3" value={search} onChange={e => setSearch(e.target.value)} placeholder="search..." />
+                        </form>
+                    </div>
 
                     {/* table */}
-                    <table className="table table-hover">
+                    <table className="table table-responsive table-hover">
                         <thead className="table-secondary">
                             <tr>
                             <th scope="col">No</th>
