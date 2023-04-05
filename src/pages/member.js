@@ -79,11 +79,12 @@ function Member() {
         
         // delete data from API using AXIOS
         try{
-            const response = await axios.delete(baseURL + "/member", config)
+            const response = await axios.delete(baseURL + "/member/" + id, config)
             alert(response.data.message)
         } catch (error) {
             console.error(error);
         }
+        fetchMember()
     }
 
     const handleSave = async (e) => {
@@ -102,7 +103,7 @@ function Member() {
         if (action === "add"){
             // save new data to API using AXIOS
             try{
-                const response = await axios.get(baseURL + "/member", data, config)
+                const response = await axios.post(baseURL + "/member", data, config)
                 alert(response.data.message)
             } catch (error) {
                 console.error(error);
@@ -111,8 +112,8 @@ function Member() {
         if (action === "edit"){
             // update data to API using AXIOS
             try{
-                const response = await axios.get(baseURL + "/member" + newMember.id, data, config)
-                setMembers(response.data.data)
+                const response = await axios.put(baseURL + "/member/" + newMember.id, data, config)
+                alert(response.data.message)
             } catch (error) {
                 console.error(error);
             }
@@ -228,7 +229,7 @@ function Member() {
                                     type="file"
                                     className="form-control mb-2"
                                     onChange={e => {setNewMember({...newMember, photo:e.target.files[0]}); setChange(true)}}
-                                    required />
+                                    />
                                 <button className="btn btn-success" type="submit">Save</button>
 
                             </form>

@@ -8,7 +8,7 @@ function MyNavbar() {
     useEffect(() => {
         //if user is not logged in, redirect to the login page
         if (!localStorage.getItem('logged')){
-            navigate('login')
+            navigate('/login')
         }
         else{
             setUser(JSON.parse(localStorage.getItem('admin')).name)
@@ -21,7 +21,7 @@ function MyNavbar() {
         localStorage.removeItem('admin')
         localStorage.removeItem('token')
         //redirect to the login page
-        (navigate('login'))
+        (navigate('/login'))
     }
 
     return(

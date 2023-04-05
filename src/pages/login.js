@@ -18,7 +18,7 @@ function Login() {
         axios.post( baseURL + '/auth', data)
         .then(response => {
             if (response.data.logged) {
-                alert("Login Success")
+                alert(response.data.message)
                 // jika berhasil login, simpan data login ke localStorage
                 localStorage.setItem('logged', response.data.logged);
                 localStorage.setItem('admin', JSON.stringify(response.data.data));
