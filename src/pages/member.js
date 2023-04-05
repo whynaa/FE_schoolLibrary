@@ -1,5 +1,5 @@
 //import library or component
-import axios from 'axios'
+import axios from 'axios' //to mannage API
 import { useState, useEffect } from 'react';
 import { MySidebar } from '../components/mySidebar'
 import { Modal } from "bootstrap"
@@ -84,6 +84,7 @@ function Member() {
         } catch (error) {
             console.error(error);
         }
+        // refresh member data
         fetchMember()
     }
 
@@ -118,6 +119,7 @@ function Member() {
                 console.error(error);
             }
         }
+        // refresh member data
         fetchMember()
     }
 
@@ -201,7 +203,7 @@ function Member() {
                                     value={newMember.gender}
                                     onChange={e => setNewMember({...newMember, gender:e.target.value})}
                                     required>
-                                    <option value="">~~Choose Gender~~</option>
+                                    <option value="">{newMember.gender !== '' ? newMember.gender : "~~Choose Gender~~"}</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
